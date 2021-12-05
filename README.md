@@ -1,2 +1,2 @@
 # bayesmatch
-Use Log Odds Bayes' Theorem to Find Distinct Names in a List
+Use log odds Bayes' theorem to find distinct names in a list
