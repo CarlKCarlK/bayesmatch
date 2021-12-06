@@ -27,9 +27,21 @@ def ProcessName(field):
     return names2
 
 
+def member_df_to_names(member_df):
+    for column_name in ["first_name", "last_name", "nickname"]:
+        column = member_df[column_name]
+        for value in column:
+            if pd.notna(value):
+                for name in ProcessName(value):
+                    yield name
+
+
 default_rare = 1e-5
 
-if __name__ == "__main__":
+#!!!cmk move ipython for name to prob to this project, too.
+
+
+def prob_of_each_member_name():
     # Find the probability of each first name, last name, and nickname in the club.
 
     # !!!cmk pull example from from the internet
@@ -44,10 +56,16 @@ if __name__ == "__main__":
     member_df = pd.read_csv(member_file, sep="\t")
     # print(member_df)
 
-    for column_name in ["first_name", "last_name", "nickname"]:
-        column = member_df[column_name]
-        for value in column:
-            if pd.notna(value):
-                for name in ProcessName(value):
-                    prob = name_to_probability.get(name, default_rare)
-                    print(f"{name} {prob}")
+    member_name_to_probability = {
+        (name, name_to_probability.get(name, default_rare))
+        for name in member_df_to_names(member_df)
+    }
+    member_name_to_probability = sorted(member_name_to_probability, key=lambda x: x[1])
+    print(member_name_to_probability[:5])
+    # [('POCAN', 3e-07), ('GROTHMAN', 4e-07), ('GOSAR', 4e-07), ('MOOLENAAR', 4e-07), ('MASTO', 4e-07)]
+    print(member_name_to_probability[-5:])
+    # [('MARY', 0.02629), ('MICHAEL', 0.02629), ('ROBERT', 0.03143), ('JOHN', 0.0327099999999999), ('JAMES', 0.03318)]
+
+
+if __name__ == "__main__":
+    prob_of_each_member_name()
