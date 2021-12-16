@@ -2,6 +2,12 @@ import pandas as pd
 import numpy as np
 import re
 
+####################################
+# Currently the notebook "bayesmatch.ipynb" is
+# the best version of this code.
+# For now, ignore this file.
+####################################
+
 
 # import numpy as np
 
