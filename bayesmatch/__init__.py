@@ -40,18 +40,18 @@ def member_df_to_names(member_df):
         column = member_df[column_name]
         for value in column:
             if pd.notna(value):
-                for name in ProcessName(value):
+                for name in process_name(value):
                     yield name
 
 
 def member_df_to_first_last(member_df):
     for row in member_df.itertuples():
-        first_name = ProcessName(row.first_name)
+        first_name = process_name(row.first_name)
         if len(first_name) > 0:
             first_name = first_name[0]
         else:
             first_name = None
-        last_name = ProcessName(row.last_name)
+        last_name = process_name(row.last_name)
         if len(last_name) > 0:
             last_name = last_name[0]
         else:
@@ -63,7 +63,9 @@ default_rare = 1e-5
 
 
 def load_name_to_prob():
-    name_probability_file = r"D:\OneDrive\Shares\RaceResults\name_probability.tsv"
+    name_probability_file = (
+        r"C:\Users\carlk\OneDrive\Shares\RaceResults\name_probability.tsv"
+    )
     name_to_probability_df = pd.read_csv(name_probability_file, sep="\t")
     name_to_probability_df.set_index("name", inplace=True)
     name_to_probability = name_to_probability_df.to_dict()["probability"]
